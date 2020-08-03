@@ -37,10 +37,6 @@ allow google_camera_app mediadrmserver_service:service_manager find;
 allow google_camera_app radio_service:service_manager find;
 allow google_camera_app app_api_service:service_manager find;
 allow google_camera_app vr_manager_service:service_manager find;
-allow google_camera_app gpu_service:service_manager find;
-
-# Allow untrusted apps to interact with gpuservice
-binder_call(google_camera_app, gpuservice)
 
 # Allow GMS core to access perfprofd output, which is stored
 # in /data/misc/perfprofd/. GMS core will need to list all
@@ -67,10 +63,6 @@ allow google_camera_app runas_app:process sigchld;
 # modify them other than to connect
 allow google_camera_app system_server:udp_socket {
         connect getattr read recvfrom sendto write getopt setopt };
-
-# Allow access to ashmemd to request /dev/ashmem fds.
-binder_call(google_camera_app, ashmemd)
-allow google_camera_app ashmem_device:chr_file { getattr read ioctl lock map append write };
 
 # Allow lldb/ndk-gdb/simpleperf to ptrace attach to debuggable app processes.
 allow runas_app google_camera_app:process { ptrace signal sigstop };
